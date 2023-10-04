@@ -7,11 +7,7 @@ import {
   Heading,
   Show,
 } from "@chakra-ui/react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-
-import Chats from "./Chats/Chats";
-import Rooms from "./Rooms/Rooms";
-import Friends from "./Friends/Friends";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import styles from "./home.module.css";
 
@@ -74,11 +70,7 @@ const Home = () => {
           <Divider orientation="horizontal" />
         </GridItem>
       </Grid>
-      <Routes>
-        <Route path="chats" element={<Chats />} />
-        <Route path="rooms" element={<Rooms />} />
-        <Route path="friends" element={<Friends />} />
-      </Routes>
+      <Outlet />
     </>
   );
 };
