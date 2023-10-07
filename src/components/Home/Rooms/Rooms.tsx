@@ -1,5 +1,13 @@
+import SearchBar from "../../SearchBar/SearchBar";
+
 const Rooms = () => {
-  return <div>Rooms</div>;
+  return (
+    <>
+      <SearchBar
+        onSearch={(searchText) => console.log("searchText ", searchText)}
+      />
+    </>
+  );
 };
 
 export default Rooms;

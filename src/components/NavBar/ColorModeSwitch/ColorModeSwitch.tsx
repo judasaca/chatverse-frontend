@@ -5,8 +5,6 @@ const ColorModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const windowWidth = useRef(window.innerWidth).current;
 
-  console.log("width: ", windowWidth);
-
   return (
     <HStack>
       <Switch
