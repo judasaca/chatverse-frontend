@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "../../hooks/useAuth";
 import { IFormData } from "../Layouts/SignInUpLayout";
 import useLogin from "../../hooks/useLogin";
@@ -25,6 +25,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoading: isLoadingSignup,
     error: errorSignup,
   } = useSignup();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) setIsAuthenticated(true);
+  }, []);
 
   if (errorLogin) return null; // [] its a truty value
   // if (isLoading) return <Spinner />;
@@ -59,6 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         onSuccess: (signupApiResponse) => {
           console.log("signupApiResponse ", signupApiResponse);
           const token = String(signupApiResponse.token);
+          // if (!localStorage.getItem("token"))
           localStorage.setItem("token", token);
           setCurrentUser({
             email: user.email,

@@ -13,8 +13,14 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/login"
+        element={!isAuthenticated ? <Login /> : <Navigate to="/chats" />}
+      />
+      <Route
+        path="/signup"
+        element={!isAuthenticated ? <Signup /> : <Navigate to="/chats" />}
+      />
 
       {/* protected routes */}
       <Route
