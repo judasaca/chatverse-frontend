@@ -16,6 +16,7 @@ export interface IFormData {
   password: string;
   email: string;
   token?: string;
+  username?: string;
 }
 
 export interface ISignup extends IFormData {
@@ -42,7 +43,37 @@ const SignInUpLayout = ({
     ...dataShapeObj,
     email: dataShapeObj.email || "",
     password: dataShapeObj.password || "",
+    username: dataShapeObj.username || "",
   });
+
+  const dataShapeObjLength = Object.keys(dataShapeObj).length;
+
+  const formFields = [
+    {
+      label: "Email",
+      type: "email",
+      name: "email",
+      id: "email",
+      placeholder: "Enter email",
+      value: formData.email,
+    },
+    {
+      label: "Password",
+      type: "password",
+      name: "password",
+      id: "password",
+      placeholder: "Enter password",
+      value: formData.password,
+    },
+    {
+      label: "Username",
+      type: "username",
+      name: "username",
+      id: "username",
+      placeholder: "Enter username",
+      value: formData.username,
+    },
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -75,34 +106,30 @@ const SignInUpLayout = ({
             const success = await authFn({
               email: formData.email,
               password: formData.password,
+              username: formData.username,
             });
-            if (success) navigate("/chats");
+            console.log(success, heading);
+            if (success && heading === "Login") navigate("/chats");
+            else if (success && heading === "Sign Up") {
+              console.log("entra");
+              navigate("/login");
+            }
           }}
         >
-          <FormControl paddingBottom={3}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              required
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          <FormControl paddingBottom={3}>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              required
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-          </FormControl>
+          {formFields.slice(0, dataShapeObjLength).map((field) => (
+            <FormControl key={field.id} paddingBottom={3}>
+              <FormLabel htmlFor={field.id}>{field.label}</FormLabel>
+              <Input
+                required
+                type={field.type}
+                name={field.name}
+                id={field.id}
+                placeholder={field.placeholder}
+                value={field.value}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          ))}
           <Button type="submit" colorScheme="pink" width="100%" marginTop={5}>
             {btnText}
           </Button>

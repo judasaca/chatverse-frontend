@@ -32,6 +32,16 @@ class APIClient<T> {
       return response.data;
     });
   };
+
+  signupRequest = (user: IFormData) => {
+    console.log("user: ", user);
+    return axiosInstance.post(this.endpoint, user).then((response) => {
+      const { token } = response.data;
+      console.log("token ", token);
+      authenticateInstance(token);
+      return response.data;
+    });
+  };
 }
 
 export default APIClient;

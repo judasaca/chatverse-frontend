@@ -6,7 +6,7 @@ export interface AuthContextType {
   isAuthenticated: boolean;
   currentUser: User | null;
   login: (user: IFormData) => Promise<boolean>;
-  signup: () => boolean;
+  signup: (user: IFormData) => Promise<boolean>;
   logout: () => void;
 }
 
