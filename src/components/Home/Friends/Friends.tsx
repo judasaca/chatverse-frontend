@@ -1,5 +1,11 @@
+import SearchBar from "../../SearchBar/SearchBar";
+
 const Friends = () => {
-  return <div>Friends</div>;
+  return (
+    <SearchBar
+      onSearch={(searchText) => console.log("searchText ", searchText)}
+    />
+  );
 };
 
 export default Friends;
