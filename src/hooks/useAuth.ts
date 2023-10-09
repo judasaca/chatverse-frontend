@@ -1,8 +1,12 @@
 import { createContext, useContext } from "react";
+import { IFormData } from "../components/Layouts/SignInUpLayout";
+import { User } from "../components/AuthProvider/AuthProvider";
 
 export interface AuthContextType {
   isAuthenticated: boolean;
-  login: () => boolean;
+  currentUser: User | null;
+  login: (user: IFormData) => Promise<boolean>;
+  signup: () => boolean;
   logout: () => void;
 }
 

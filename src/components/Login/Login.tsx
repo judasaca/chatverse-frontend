@@ -1,9 +1,9 @@
 import { useAuth } from "../../hooks/useAuth";
-import SignInUpLayout, { FormData } from "../Layouts/SignInUpLayout";
+import SignInUpLayout, { IFormData } from "../Layouts/SignInUpLayout";
 
 const Login = () => {
-  const dataShapeObj: FormData = {
-    username: "",
+  const dataShapeObj: IFormData = {
+    email: "",
     password: "",
   };
 

@@ -12,17 +12,21 @@ import { useNavigate } from "react-router-dom";
 import styles from "./signInOutLayout.module.css";
 import { useState } from "react";
 
-export interface FormData {
-  username: string;
+export interface IFormData {
   password: string;
-  email?: string;
+  email: string;
+  token?: string;
+}
+
+export interface ISignup extends IFormData {
+  username: string;
 }
 
 interface SignInUpLayoutProps {
   heading: string;
   btnText: string;
-  dataShapeObj: FormData;
-  authFn: () => boolean;
+  dataShapeObj: IFormData;
+  authFn: (arg: IFormData) => Promise<boolean>;
   // setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
@@ -34,7 +38,11 @@ const SignInUpLayout = ({
 }: SignInUpLayoutProps) => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState<FormData>(dataShapeObj);
+  const [formData, setFormData] = useState<IFormData>({
+    ...dataShapeObj,
+    email: dataShapeObj.email || "",
+    password: dataShapeObj.password || "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,39 +69,44 @@ const SignInUpLayout = ({
             chatverse
           </Heading>
         </Flex>
-        <FormControl paddingBottom={3}>
-          <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
-            type="username"
-            name="username"
-            id="username"
-            placeholder="Enter username"
-            value={formData.username}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <FormControl paddingBottom={3}>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </FormControl>
-        <Button
-          colorScheme="pink"
-          width="100%"
-          onClick={async () => {
-            const success = authFn();
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            const success = await authFn({
+              email: formData.email,
+              password: formData.password,
+            });
             if (success) navigate("/chats");
           }}
-          marginTop={5}
         >
-          {btnText}
-        </Button>
+          <FormControl paddingBottom={3}>
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <Input
+              required
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl paddingBottom={3}>
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Input
+              required
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <Button type="submit" colorScheme="pink" width="100%" marginTop={5}>
+            {btnText}
+          </Button>
+        </form>
       </Flex>
     </Flex>
   );
