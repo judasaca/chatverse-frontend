@@ -10,7 +10,7 @@ export interface User {
 
 const Chats = () => {
   const user: User = {
-    username: "angLaGatita",
+    username: "judasaca2",
     lastMessage: "How r u? 💕",
     time: "18:20",
     profileImg:
