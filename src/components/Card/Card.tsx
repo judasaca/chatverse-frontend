@@ -40,7 +40,7 @@ const CardComponent = ({ user }: Props) => {
       <Stack flex={"1"}>
         <CardBody padding={"1rem"}>
           <Flex justifyContent={"space-between"}>
-            <Heading size="sm">{user.username}</Heading>
+            <Heading size="sm">{user.username + "HOLA"}</Heading>
             <Text fontSize="sm">{user.time}</Text>
           </Flex>
           <Text py="1" fontSize="sm">

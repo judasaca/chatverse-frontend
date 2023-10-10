@@ -42,6 +42,18 @@ class APIClient<T> {
       return response.data;
     });
   };
+
+  getUserInfo = (token: string) => {
+    console.log("haciendo solicitud...");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance.get(this.endpoint, config).then((response) => {
+      return response.data;
+    });
+  };
 }
 
 export default APIClient;
