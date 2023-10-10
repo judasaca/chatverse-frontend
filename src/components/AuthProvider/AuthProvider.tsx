@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "../../hooks/useAuth";
 import { IFormData } from "../Layouts/SignInUpLayout";
 import useLogin from "../../hooks/useLogin";
-import { Spinner } from "@chakra-ui/react";
+// import { Spinner } from "@chakra-ui/react";
 import useSignup from "../../hooks/useSignup";
 
 export interface User {
@@ -16,14 +16,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const {
     mutate: mutateLogin,
-    isLoading: isLoadingLogin,
+    // isLoading: isLoadingLogin,
     error: errorLogin,
   } = useLogin();
 
   const {
     mutate: mutateSignup,
-    isLoading: isLoadingSignup,
-    error: errorSignup,
+    // isLoading: isLoadingSignup,
+    // error: errorSignup,
   } = useSignup();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // if (isLoading) return <Spinner />;
 
   const login = async (user: IFormData): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       mutateLogin(user, {
         onSuccess: (loginApiResponse) => {
           console.log("loginApiResponse ", loginApiResponse);
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signup = (user: IFormData): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       mutateSignup(user, {
         onSuccess: (signupApiResponse) => {
           console.log("signupApiResponse ", signupApiResponse);
