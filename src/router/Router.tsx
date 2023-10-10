@@ -7,6 +7,7 @@ import Chats from "../components/Home/Chats/Chats";
 import Rooms from "../components/Home/Rooms/Rooms";
 import Friends from "../components/Home/Friends/Friends";
 import { useAuth } from "../hooks/useAuth";
+import ChatView from "../components/ChatView/ChatView";
 
 const Router = () => {
   const { isAuthenticated } = useAuth();
@@ -31,6 +32,7 @@ const Router = () => {
       >
         <Route path="" element={<Home />}>
           <>
+            <Route path="chat" element={<ChatView />} />
             <Route path="chats" element={<Chats />} />
             <Route path="rooms" element={<Rooms />} />
             <Route path="friends" element={<Friends />} />

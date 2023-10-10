@@ -8,18 +8,24 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { User } from "../Home/Chats/Chats";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   user: User;
 }
 
 const CardComponent = ({ user }: Props) => {
+  const navigate = useNavigate();
+
   return (
     <Card
       direction={{ base: "row" }}
       overflow="hidden"
       display={"flex"}
       marginBottom={5}
+      onClick={() =>
+        navigate("/chat", { state: { selectedUsername: user.username } })
+      }
     >
       <Flex
         padding={"10px"}
@@ -40,7 +46,7 @@ const CardComponent = ({ user }: Props) => {
       <Stack flex={"1"}>
         <CardBody padding={"1rem"}>
           <Flex justifyContent={"space-between"}>
-            <Heading size="sm">{user.username + "HOLA"}</Heading>
+            <Heading size="sm">{user.username}</Heading>
             <Text fontSize="sm">{user.time}</Text>
           </Flex>
           <Text py="1" fontSize="sm">
