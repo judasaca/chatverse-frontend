@@ -50,9 +50,15 @@ class APIClient<T> {
         Authorization: `Bearer ${token}`,
       },
     };
-    return axiosInstance.get(this.endpoint, config).then((response) => {
-      return response.data;
-    });
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log("error ", error.response.status);
+        return { error: error.response.status };
+      });
   };
 }
 

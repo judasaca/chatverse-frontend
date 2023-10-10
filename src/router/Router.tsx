@@ -12,6 +12,8 @@ import ChatView from "../components/ChatView/ChatView";
 const Router = () => {
   const { isAuthenticated } = useAuth();
 
+  console.log("isAuthenticated ", isAuthenticated);
+
   return (
     <Routes>
       <Route

@@ -5,6 +5,7 @@ import useLogin from "../../hooks/useLogin";
 // import { Spinner } from "@chakra-ui/react";
 import useSignup from "../../hooks/useSignup";
 import useUser from "../../hooks/useUser";
+// import { useNavigate } from "react-router-dom";
 
 export interface User {
   email: string;
@@ -13,6 +14,7 @@ export interface User {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  // const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
     mutate: mutateLogin,
     // isLoading: isLoadingLogin,
-    error: errorLogin,
+    // error: errorLogin,
   } = useLogin();
 
   const {
@@ -35,7 +37,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    // the backend sends a 403 forbidden error when the token has expired
+    const tokenHasExpired = userData?.error === 403;
+
+    if (tokenHasExpired) {
+      setIsAuthenticated(false);
+    }
+
+    if (localStorage.getItem("token") && !tokenHasExpired) {
       setCurrentUser({
         email: "",
         username: userData?.username || "",
@@ -47,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [userData, userError]);
 
-  if (errorLogin) return null; // [] its a truty value
+  // if (errorLogin) return null; // [] its a truty value
   // if (isLoading) return <Spinner />;
 
   const login = async (user: IFormData): Promise<boolean> => {
