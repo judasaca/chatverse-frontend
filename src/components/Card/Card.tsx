@@ -19,6 +19,8 @@ const CardComponent = ({ user }: Props) => {
 
   return (
     <Card
+      cursor={"pointer"}
+      variant={"filled"}
       direction={{ base: "row" }}
       overflow="hidden"
       display={"flex"}
