@@ -25,9 +25,7 @@ const CardComponent = ({ user }: Props) => {
       overflow="hidden"
       display={"flex"}
       marginBottom={5}
-      onClick={() =>
-        navigate("/chat", { state: { selectedUsername: user.username } })
-      }
+      onClick={() => navigate("/chat", { state: { selectedUser: user } })}
     >
       <Flex
         padding={"10px"}

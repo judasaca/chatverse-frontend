@@ -25,6 +25,12 @@ const Router = () => {
         element={!isAuthenticated ? <Signup /> : <Navigate to="/chats" />}
       />
 
+      {/* protected routed for chatview */}
+      <Route
+        path="/chat"
+        element={isAuthenticated ? <ChatView /> : <Navigate to="/login" />}
+      />
+
       {/* protected routes */}
       <Route
         path="/*"
@@ -34,7 +40,6 @@ const Router = () => {
       >
         <Route path="" element={<Home />}>
           <>
-            <Route path="chat" element={<ChatView />} />
             <Route path="chats" element={<Chats />} />
             <Route path="rooms" element={<Rooms />} />
             <Route path="friends" element={<Friends />} />
