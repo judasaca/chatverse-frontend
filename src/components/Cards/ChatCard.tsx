@@ -8,23 +8,29 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { User } from "../Home/Chats/Chats";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Props {
   user: User;
 }
 
-const CardComponent = ({ user }: Props) => {
+const ChatCard = ({ user }: Props) => {
   const navigate = useNavigate();
+  const params = useParams();
+  const currentRelativeURL = params["*"];
 
   return (
     <Card
+      cursor={"pointer"}
+      variant={"filled"}
       direction={{ base: "row" }}
       overflow="hidden"
       display={"flex"}
       marginBottom={5}
       onClick={() =>
-        navigate("/chat", { state: { selectedUsername: user.username } })
+        navigate("/chat", {
+          state: { selectedUser: user, origin: currentRelativeURL },
+        })
       }
     >
       <Flex
@@ -58,4 +64,4 @@ const CardComponent = ({ user }: Props) => {
   );
 };
 
-export default CardComponent;
+export default ChatCard;

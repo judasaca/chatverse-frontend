@@ -18,28 +18,11 @@ const Home = () => {
       <Grid
         templateAreas={{
           base: `'main'`,
-          lg: `'aside main'`, //> 1024px
         }}
         templateColumns={{
           base: "1fr",
-          lg: "250px 1fr",
         }}
       >
-        {/* aside */}
-        <Show above="lg">
-          <GridItem
-            area="aside"
-            as="aside"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-          >
-            <Heading as="h2" size="lg" paddingBottom={5}>
-              Chats
-            </Heading>
-            <Box overflowY={"scroll"} paddingRight={2} height={"75vh"}></Box>
-          </GridItem>
-        </Show>
         <GridItem area="main">
           <Flex fontSize="lg" justifyContent="space-evenly" paddingBottom={5}>
             <Heading

@@ -1,17 +1,17 @@
 import { Badge, Image, VStack, Text, HStack } from "@chakra-ui/react";
 import styles from "./userContainer.module.css";
-import { useAuth } from "../../../hooks/useAuth";
+import { User } from "../AuthProvider/AuthProvider";
 
-const UserContainer = () => {
-  // TODO: asi se accede a current user que tiene token y username
-  const { currentUser } = useAuth();
-  console.log("currentUser ", currentUser);
+interface UserContainerProps {
+  user: User | null;
+}
 
+const UserContainer = ({ user }: UserContainerProps) => {
   return (
-    <HStack>
+    <HStack gap={5}>
       <Image className={styles.userImg} src="https://unsplash.it/50/50" />
       <VStack alignItems={"flex-start"}>
-        <Text>{currentUser ? currentUser.username : ""}</Text>
+        <Text>{user ? user.username : ""}</Text>
         <Badge colorScheme="green">Online</Badge>
       </VStack>
     </HStack>
