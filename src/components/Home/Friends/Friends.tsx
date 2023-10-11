@@ -1,8 +1,14 @@
+import { Button, Spinner } from "@chakra-ui/react";
 import useFriends from "../../../hooks/useFriends";
 import FriendCard from "../../Cards/FriendCard";
 import SearchBar from "../../SearchBar/SearchBar";
+import { BsPersonPlus } from "react-icons/bs";
+import styles from "./friends.module.css";
+import AddNewFriendModal from "../../AddNewFriendModal/AddNewFriendModal";
+import { useState } from "react";
 
 const Friends = () => {
+  const [openModal, setOpenModal] = useState(false);
   const { data, isLoading, error } = useFriends(
     localStorage.getItem("token") || ""
   );
@@ -13,6 +19,8 @@ const Friends = () => {
   ];
 
   // console.log("friends: ", data);
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>
@@ -29,6 +37,21 @@ const Friends = () => {
           }}
         />
       ))}
+
+      {/* agregar a un nuevo amigo */}
+      <Button
+        position={"fixed"}
+        right={"20px"}
+        bottom={"20px"}
+        borderRadius={"100px"}
+        padding={0}
+        className={styles.addFriendBtn}
+        onClick={() => setOpenModal(true)}
+      >
+        <BsPersonPlus className={styles.addFriendIcon} />
+      </Button>
+
+      {openModal && <AddNewFriendModal setOpenModal={setOpenModal} />}
     </>
   );
 };

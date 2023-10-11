@@ -8,9 +8,14 @@ class APIClient<T> {
     this.endpoint = endpoint;
   }
 
-  getChats = () => {
+  getChats = (token: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     return axiosInstance
-      .get<T>(this.endpoint)
+      .get(this.endpoint, config)
       .then((response) => response.data);
   };
 
