@@ -44,7 +44,6 @@ class APIClient<T> {
   };
 
   getUserInfo = (token: string) => {
-    console.log("haciendo solicitud...");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,6 +58,17 @@ class APIClient<T> {
         console.log("error ", error.response.status);
         return { error: error.response.status };
       });
+  };
+
+  getFriends = (token: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((response) => response.data);
   };
 }
 

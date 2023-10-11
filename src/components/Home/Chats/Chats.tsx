@@ -1,4 +1,4 @@
-import CardComponent from "../../Card/Card";
+import ChatCard from "../../Cards/ChatCard";
 import SearchBar from "../../SearchBar/SearchBar";
 
 export interface User {
@@ -28,8 +28,8 @@ const Chats = () => {
       <SearchBar
         onSearch={(searchText) => console.log("searchText ", searchText)}
       />
-      <CardComponent user={user} />
-      <CardComponent user={user2} />
+      <ChatCard user={user} />
+      <ChatCard user={user2} />
     </>
   );
 };

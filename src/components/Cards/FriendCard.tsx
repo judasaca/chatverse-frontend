@@ -1,20 +1,16 @@
-import {
-  Card,
-  CardBody,
-  Heading,
-  Stack,
-  Text,
-  Image,
-  Flex,
-} from "@chakra-ui/react";
-import { User } from "../Home/Chats/Chats";
+import { Card, CardBody, Heading, Stack, Image, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  user: User;
+  user: Friend;
 }
 
-const CardComponent = ({ user }: Props) => {
+export interface Friend {
+  username: string;
+  profileImg: string;
+}
+
+const FriendCard = ({ user }: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -47,15 +43,11 @@ const CardComponent = ({ user }: Props) => {
         <CardBody padding={"1rem"}>
           <Flex justifyContent={"space-between"}>
             <Heading size="sm">{user.username}</Heading>
-            <Text fontSize="sm">{user.time}</Text>
           </Flex>
-          <Text py="1" fontSize="sm">
-            {user.lastMessage}
-          </Text>
         </CardBody>
       </Stack>
     </Card>
   );
 };
 
-export default CardComponent;
+export default FriendCard;
