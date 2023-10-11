@@ -12,7 +12,7 @@ const Friends = () => {
     "https://unsplash.it/52/52",
   ];
 
-  console.log("friends: ", data);
+  // console.log("friends: ", data);
 
   return (
     <>
@@ -20,12 +20,12 @@ const Friends = () => {
         onSearch={(searchText) => console.log("searchText ", searchText)}
       />
 
-      {data?.friends?.map((friendUsername: string) => (
+      {data?.friends?.map((friendUsername: string, index: number) => (
         <FriendCard
           key={friendUsername}
           user={{
             username: friendUsername,
-            profileImg: profileImgs[0],
+            profileImg: profileImgs[index],
           }}
         />
       ))}

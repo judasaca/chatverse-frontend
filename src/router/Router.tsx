@@ -8,6 +8,7 @@ import Rooms from "../components/Home/Rooms/Rooms";
 import Friends from "../components/Home/Friends/Friends";
 import { useAuth } from "../hooks/useAuth";
 import ChatView from "../components/ChatView/ChatView";
+import UserView from "../components/UserView/UserView";
 
 const Router = () => {
   const { isAuthenticated } = useAuth();
@@ -25,10 +26,14 @@ const Router = () => {
         element={!isAuthenticated ? <Signup /> : <Navigate to="/chats" />}
       />
 
-      {/* protected routed for chatview */}
+      {/* protected routes which dont have navbar */}
       <Route
         path="/chat"
         element={isAuthenticated ? <ChatView /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/user"
+        element={isAuthenticated ? <UserView /> : <Navigate to="/login" />}
       />
 
       {/* protected routes */}

@@ -6,13 +6,14 @@ import { User } from "../../AuthProvider/AuthProvider";
 
 interface ChatHeaderProps {
   user: User | null;
+  origin: string;
 }
 
-const ChatHeader = ({ user }: ChatHeaderProps) => {
+const ChatHeader = ({ user, origin }: ChatHeaderProps) => {
   const navigate = useNavigate();
   return (
     <Flex align={"center"} gap={4} paddingBottom={5}>
-      <Box onClick={() => navigate("/chats")}>
+      <Box onClick={() => navigate(`/${origin}`)}>
         <BiArrowBack size={"3vh"} />
       </Box>
       <UserContainer user={user} />

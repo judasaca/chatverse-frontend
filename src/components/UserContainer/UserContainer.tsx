@@ -8,7 +8,7 @@ interface UserContainerProps {
 
 const UserContainer = ({ user }: UserContainerProps) => {
   return (
-    <HStack>
+    <HStack gap={5}>
       <Image className={styles.userImg} src="https://unsplash.it/50/50" />
       <VStack alignItems={"flex-start"}>
         <Text>{user ? user.username : ""}</Text>

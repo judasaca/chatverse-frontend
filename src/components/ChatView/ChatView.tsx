@@ -16,6 +16,7 @@ const ChatView = () => {
   console.log("rendering chat view");
   const { state } = useLocation();
   const selectedUser = state.selectedUser;
+  const origin = state.origin;
   console.log(state);
 
   // const socket = io(URL);
@@ -49,7 +50,7 @@ const ChatView = () => {
       }}
     >
       <GridItem area="main">
-        <ChatHeader user={selectedUser} />
+        <ChatHeader user={selectedUser} origin={origin} />
         <Flex
           overflowY="scroll"
           className="chat-history-container"
