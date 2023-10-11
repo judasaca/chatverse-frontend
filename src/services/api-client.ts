@@ -8,9 +8,14 @@ class APIClient<T> {
     this.endpoint = endpoint;
   }
 
-  getChats = () => {
+  getChats = (token: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     return axiosInstance
-      .get<T>(this.endpoint)
+      .get(this.endpoint, config)
       .then((response) => response.data);
   };
 
@@ -44,15 +49,31 @@ class APIClient<T> {
   };
 
   getUserInfo = (token: string) => {
-    console.log("haciendo solicitud...");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    return axiosInstance.get(this.endpoint, config).then((response) => {
-      return response.data;
-    });
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log("error ", error.response.status);
+        return { error: error.response.status };
+      });
+  };
+
+  getFriends = (token: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((response) => response.data);
   };
 }
 

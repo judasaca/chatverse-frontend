@@ -4,6 +4,10 @@ import APIClient from "../services/api-client";
 const apiClient = new APIClient("/user/info");
 
 const useUser = (token: string) =>
-  useQuery(["user-info", token], () => apiClient.getUserInfo(token));
+  useQuery({
+    queryKey: ["user-info", token],
+    queryFn: () => apiClient.getUserInfo(token),
+  });
+// useQuery(["user-info", token], () => apiClient.getUserInfo(token));
 
 export default useUser;
