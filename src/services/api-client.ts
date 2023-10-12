@@ -75,6 +75,39 @@ class APIClient<T> {
       .get(this.endpoint, config)
       .then((response) => response.data);
   };
+
+  getAddFriendSearch = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { username }, config)
+      .then((response) => response.data);
+  };
+
+  postSendFriendInvitation = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { receiver_username: username }, config)
+      .then((response) => response.data);
+  };
+
+  getOpenInvitations = (token: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((response) => response.data);
+  };
 }
 
 export default APIClient;

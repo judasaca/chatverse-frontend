@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const Friends = () => {
   const [openModal, setOpenModal] = useState(false);
-  const { data, isLoading, error } = useFriends(
+  const { data, isLoading, isError } = useFriends(
     localStorage.getItem("token") || ""
   );
 

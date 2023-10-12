@@ -12,7 +12,7 @@ export interface User {
 }
 
 const Chats = () => {
-  const { data, isLoading, error } = useChats(
+  const { data, isLoading, isError } = useChats(
     localStorage.getItem("token") || ""
   );
 

@@ -5,7 +5,7 @@ const apiClient = new APIClient("/friendship/friends/all");
 
 const useFriends = (token: string) =>
   useQuery({
-    queryKey: ["friends"],
+    queryKey: ["friends", token],
     queryFn: () => apiClient.getFriends(token),
   });
 

@@ -1,12 +1,67 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Spinner } from "@chakra-ui/react";
 import SearchBar from "../SearchBar/SearchBar";
 import theme from "../../theme";
+import useAddFriendSearch from "../../hooks/useAddFriendSearch";
+import { useState } from "react";
+import FriendInvitationCard from "./FriendInvitationCard";
+import useOpenInvitations from "../../hooks/useOpenInvitations";
 
 interface Props {
   setOpenModal: (arg: boolean) => void;
 }
 
 const AddNewFriendModal = ({ setOpenModal }: Props) => {
+  // console.log("renderizando de nuevo...");
+
+  const [inputValue, setInputValue] = useState("");
+  const { data: friendSearchData, isLoading } = useAddFriendSearch(
+    localStorage.getItem("token") || "",
+    inputValue
+  );
+
+  const { data: openInvitationsData } = useOpenInvitations(
+    localStorage.getItem("token") || ""
+  );
+
+  // console.log("openInvitationsData ", openInvitationsData);
+
+  // console.log("inputValue", inputValue);
+  // console.log("friendSearchData", friendSearchData);
+
+  function usersToDisplay() {
+    const invitationReceivedUsernames =
+      openInvitationsData?.invitationsReceived?.map(
+        (obj: { senderUsername: "" }) => {
+          return obj?.senderUsername;
+        }
+      );
+
+    const invitationSentUsernames = openInvitationsData?.invitationsSent?.map(
+      (obj: { receiverUsername: "" }) => {
+        return obj?.receiverUsername;
+      }
+    );
+
+    const openInvitations = invitationReceivedUsernames?.concat(
+      invitationSentUsernames
+    );
+
+    const usersToDsiplay = friendSearchData?.users?.filter(
+      (element: string) => !openInvitations?.includes(element)
+    );
+
+    return usersToDsiplay;
+  }
+
+  const users = usersToDisplay();
+
+  // console.log("usersToDisplay", users);
+
+  const handleSearch = (searchText: string) => {
+    // console.log("searchText ", searchText);
+    setInputValue(searchText);
+  };
+
   return (
     <Box
       position={"fixed"}
@@ -40,9 +95,21 @@ const AddNewFriendModal = ({ setOpenModal }: Props) => {
         <Heading as="h2" fontSize={"2xl"}>
           Add a new Friend
         </Heading>
-        <SearchBar
-          onSearch={(searchText) => console.log("searchText ", searchText)}
-        />
+        <SearchBar onSearch={handleSearch} />
+        <Flex
+          width={"85%"}
+          flexDirection={"column"}
+          alignItems={"flex-start"}
+          gap={4}
+          overflowY={"auto"}
+          paddingRight={5}
+        >
+          {isLoading && <Spinner />}
+
+          {users?.map((username: string) => {
+            return <FriendInvitationCard key={username} username={username} />;
+          })}
+        </Flex>
         <Button
           position={"absolute"}
           right={"10px"}

@@ -10,10 +10,9 @@ const SearchBar = ({ onSearch }: Props) => {
   const ref = useRef<HTMLInputElement>(null); //ref to the search input
   return (
     <form
-      style={{ paddingTop: "1.25rem", paddingBottom: "1.25rem" }}
+      style={{ paddingTop: "1.25rem", paddingBottom: "1.25rem", width: "100%" }}
       onSubmit={(event) => {
         event.preventDefault(); // to prevent the form to be posted to the server
-        if (ref.current) onSearch(ref.current.value);
       }}
     >
       <InputGroup>
@@ -26,6 +25,9 @@ const SearchBar = ({ onSearch }: Props) => {
           borderRadius={20}
           placeholder="Search"
           variant="filled"
+          onChange={() => {
+            if (ref.current) onSearch(ref.current.value);
+          }}
         />
       </InputGroup>
     </form>
