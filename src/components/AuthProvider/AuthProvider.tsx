@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  console.log("currentUser ", currentUser);
+  // console.log("currentUser ", currentUser);
 
   const {
     mutate: mutateLogin,
@@ -63,10 +63,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return new Promise((resolve) => {
       mutateLogin(user, {
         onSuccess: (loginApiResponse) => {
-          console.log("loginApiResponse ", loginApiResponse);
+          // console.log("loginApiResponse ", loginApiResponse);
           const token = String(loginApiResponse.token);
           localStorage.setItem("token", token);
-          console.log("EL USUAARIO", user);
           setCurrentUser({
             email: user.email,
             username: loginApiResponse.username || "user",
@@ -112,8 +111,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
-    //eliminar tokens o hacer otras acciones de limpieza.
+    console.log("currentUser ? logout...", currentUser);
   };
 
   return (

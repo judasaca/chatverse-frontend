@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiMessageRoundedDetail } from "react-icons/bi";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import styles from "./friendCard.module.css";
 interface Props {
   user: Friend;
@@ -39,7 +38,11 @@ const FriendCard = ({ user }: Props) => {
         paddingRight={0}
         alignItems={"center"}
         justifyContent={"center"}
-        onClick={() => navigate("/user")}
+        onClick={() =>
+          navigate("/user", {
+            state: { selectedUser: user, origin: currentRelativeURL },
+          })
+        }
       >
         <Image
           objectFit="cover"
@@ -54,7 +57,7 @@ const FriendCard = ({ user }: Props) => {
       <Stack flex={"1"}>
         <CardBody
           padding={0}
-          paddingRight={"1rem"}
+          paddingRight={"0.5rem"}
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
@@ -65,7 +68,11 @@ const FriendCard = ({ user }: Props) => {
             alignItems={"center"}
             width={"100%"}
             height={"100%"}
-            onClick={() => navigate("/user")}
+            onClick={() =>
+              navigate("/user", {
+                state: { selectedUser: user, origin: currentRelativeURL },
+              })
+            }
           >
             <Heading size="sm">{user.username}</Heading>
           </Box>
@@ -78,10 +85,10 @@ const FriendCard = ({ user }: Props) => {
                 })
               }
             >
-              <BiMessageRoundedDetail className={styles.icons} />
-            </Box>
-            <Box padding={3} onClick={() => console.log("send to add room")}>
-              <AiOutlinePlusCircle className={styles.icons} />
+              <BiMessageRoundedDetail
+                className={styles.icons}
+                title={"Chat with your friend"}
+              />
             </Box>
           </Box>
         </CardBody>

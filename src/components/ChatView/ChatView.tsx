@@ -11,13 +11,38 @@ import {
   Input,
 } from "@chakra-ui/react";
 import ChatHeader from "./ChatHeader/ChatHeader";
+import useMessages from "../../hooks/useMessages";
+import MessageCard, { MessageObj } from "../Cards/MessageCard";
+import styles from "./chatView.module.css";
+import useSendMessage from "../../hooks/useSendMessage";
+import { useState } from "react";
 
 const ChatView = () => {
   console.log("rendering chat view");
   const { state } = useLocation();
   const selectedUser = state.selectedUser;
   const origin = state.origin;
-  console.log(state);
+  // console.log(state);
+
+  const { data: messagesData } = useMessages(
+    localStorage.getItem("token") || "",
+    selectedUser.username
+  );
+
+  const [message, setMessage] = useState("");
+  const [shouldFetch, setShouldFetch] = useState(false);
+
+  const { data: sendMessageData } = useSendMessage(
+    localStorage.getItem("token") || "",
+    selectedUser.username,
+    message,
+    shouldFetch
+  );
+
+  console.log("typing...", message);
+  sendMessageData && console.log("sendMessageData", sendMessageData);
+
+  //
 
   // const socket = io(URL);
   // useEffect(() => {
@@ -56,12 +81,18 @@ const ChatView = () => {
           className="chat-history-container"
           marginBottom={5}
           flexDirection="column"
+          paddingRight={2}
+          height={"85%"}
         >
-          {/* <div>TO: {selectedUser.username}</div> */}
-          <div className="messages">messages will be rendered here</div>
-          <ul id="messages"></ul>
-
-          {/* <div className="input-bar">Input</div> */}
+          <Box className={styles.messages}>
+            {messagesData?.messages &&
+              [...messagesData.messages]
+                .reverse()
+                .map((messageObj: MessageObj, index: number) => {
+                  // console.log(messageObj);
+                  return <MessageCard key={index} data={messageObj} />;
+                })}
+          </Box>
         </Flex>
       </GridItem>
       <GridItem area="footer">
@@ -83,6 +114,8 @@ const ChatView = () => {
                 });
                 input.value = "";
               }
+
+              setShouldFetch(true);
             }}
           >
             <FormControl display={"flex"} flexDirection="row" gap={2}>
@@ -91,6 +124,7 @@ const ChatView = () => {
                 autoComplete="off"
                 type="text"
                 placeholder="Type a message"
+                onChange={(event) => setMessage(event.target.value)}
               />
               <Button type="submit">Send</Button>
             </FormControl>

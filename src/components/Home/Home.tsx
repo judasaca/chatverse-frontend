@@ -1,18 +1,14 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Show,
-} from "@chakra-ui/react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Divider, Flex, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
 import styles from "./home.module.css";
+import theme from "../../theme";
 
 const Home = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const currentRelativeURL = params["*"];
+  console.log(currentRelativeURL);
   return (
     <>
       <Grid
@@ -28,22 +24,28 @@ const Home = () => {
             <Heading
               onClick={() => navigate("/chats")}
               className={styles.categories}
+              style={
+                currentRelativeURL === "chats"
+                  ? {
+                      color: theme.colors.pink[500],
+                    }
+                  : {}
+              }
               as="h2"
               size="md"
             >
               Chats
             </Heading>
             <Heading
-              onClick={() => navigate("/rooms")}
-              className={styles.categories}
-              as="h2"
-              size="md"
-            >
-              Rooms
-            </Heading>
-            <Heading
               onClick={() => navigate("/friends")}
               className={styles.categories}
+              style={
+                currentRelativeURL === "friends"
+                  ? {
+                      color: theme.colors.pink[500],
+                    }
+                  : {}
+              }
               as="h2"
               size="md"
             >

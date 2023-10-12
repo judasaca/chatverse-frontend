@@ -14,7 +14,7 @@ const ChatHeader = ({ user, origin }: ChatHeaderProps) => {
   return (
     <Flex align={"center"} gap={4} paddingBottom={5}>
       <Box onClick={() => navigate(`/${origin}`)}>
-        <BiArrowBack size={"3vh"} />
+        <BiArrowBack cursor={"pointer"} size={"3vh"} />
       </Box>
       <UserContainer user={user} />
     </Flex>

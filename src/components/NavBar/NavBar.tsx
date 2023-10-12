@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 const NavBar = () => {
   // TODO: asi se accede a current user que tiene token y username
   const { currentUser } = useAuth();
-  console.log("currentUser ", currentUser);
+  // console.log("currentUser ", currentUser);
 
   return (
     <HStack justifyContent="space-between" paddingBottom={10} paddingTop={3}>

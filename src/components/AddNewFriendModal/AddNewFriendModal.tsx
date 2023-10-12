@@ -11,22 +11,16 @@ interface Props {
 }
 
 const AddNewFriendModal = ({ setOpenModal }: Props) => {
-  // console.log("renderizando de nuevo...");
-
   const [inputValue, setInputValue] = useState("");
   const { data: friendSearchData, isLoading } = useAddFriendSearch(
     localStorage.getItem("token") || "",
     inputValue
   );
 
-  const { data: openInvitationsData } = useOpenInvitations(
+  const { data: openInvitationsData, refetch } = useOpenInvitations(
     localStorage.getItem("token") || ""
   );
-
-  // console.log("openInvitationsData ", openInvitationsData);
-
-  // console.log("inputValue", inputValue);
-  // console.log("friendSearchData", friendSearchData);
+  console.log("actualizando el dom...");
 
   function usersToDisplay() {
     const invitationReceivedUsernames =
@@ -52,18 +46,15 @@ const AddNewFriendModal = ({ setOpenModal }: Props) => {
 
     return usersToDsiplay;
   }
-
   const users = usersToDisplay();
 
-  // console.log("usersToDisplay", users);
-
   const handleSearch = (searchText: string) => {
-    // console.log("searchText ", searchText);
     setInputValue(searchText);
   };
 
   return (
     <Box
+      zIndex={1000}
       position={"fixed"}
       top={"50%"}
       left={"50%"}

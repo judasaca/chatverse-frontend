@@ -1,8 +1,12 @@
 const formatData = (dateString: string) => {
+  // Convert the date to UTC-5
   const inputDate = new Date(dateString);
-  const today = new Date();
-  const yesterday = new Date(today);
+  inputDate.setUTCHours(inputDate.getUTCHours() - 5);
 
+  const today = new Date();
+  today.setUTCHours(today.getUTCHours() - 5);
+
+  const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
 
   // Function to compare if two dates are on the same day
@@ -22,8 +26,13 @@ const formatData = (dateString: string) => {
       inputDate.getUTCMinutes().toString().padStart(2, "0")
     );
   } else if (isSameDay(inputDate, yesterday)) {
-    // If it's yesterday
-    return "yesterday";
+    // If it's yesterday, return "yesterday" followed by the time in HH:mm format
+    return (
+      "yesterday " +
+      inputDate.getUTCHours().toString().padStart(2, "0") +
+      ":" +
+      inputDate.getUTCMinutes().toString().padStart(2, "0")
+    );
   } else {
     // If it's an older date, return in dd/mm/yyyy format
     return (

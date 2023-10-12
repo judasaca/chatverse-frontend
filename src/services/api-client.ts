@@ -1,7 +1,7 @@
 import { IFormData } from "../components/Layouts/SignInUpLayout";
 import axiosInstance, { authenticateInstance } from "./axios-instance";
 
-class APIClient<T> {
+class APIClient {
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -19,12 +19,15 @@ class APIClient<T> {
       .then((response) => response.data);
   };
 
-  getMessages = (fromNumber: number, toNumber: string) => {
+  getMessages = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { username },
+    };
     return axiosInstance
-      .post<T>(this.endpoint, {
-        fromNumber,
-        toNumber,
-      })
+      .get(this.endpoint, config)
       .then((response) => response.data);
   };
 
@@ -106,6 +109,50 @@ class APIClient<T> {
     };
     return axiosInstance
       .get(this.endpoint, config)
+      .then((response) => response.data);
+  };
+
+  postSendMessage = (token: string, toUsername: string, message: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { to: toUsername, content: message }, config)
+      .then((response) => response.data);
+  };
+
+  postAcceptInvitation = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { username }, config)
+      .then((response) => response.data);
+  };
+
+  postCancelInvitation = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { username }, config)
+      .then((response) => response.data);
+  };
+
+  postRejectInvitation = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .post(this.endpoint, { username }, config)
       .then((response) => response.data);
   };
 }

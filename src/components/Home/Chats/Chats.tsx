@@ -21,7 +21,7 @@ const Chats = () => {
     "https://unsplash.it/53/53",
   ];
 
-  console.log("dataaa ", data);
+  // console.log("dataaa ", data);
 
   if (isLoading) return <Spinner />;
 
@@ -30,30 +30,30 @@ const Chats = () => {
       <SearchBar
         onSearch={(searchText) => console.log("searchText ", searchText)}
       />
-
-      {data?.items?.map(
-        (
-          chatObj: {
-            friend: string;
-            message: {
-              receiverUsername: string;
-              message: string;
-              createdAt: string;
+      {data?.items &&
+        [...data.items].reverse().map(
+          (
+            chatObj: {
+              friend: string;
+              message: {
+                receiverUsername: string;
+                message: string;
+                createdAt: string;
+              };
+            },
+            index: number
+          ) => {
+            const chat = chatObj.message;
+            // console.log("chat ", chat);
+            const user: User = {
+              username: chat.receiverUsername,
+              lastMessage: chat.message,
+              time: formatData(chat.createdAt),
+              profileImg: profileImgs[index],
             };
-          },
-          index: number
-        ) => {
-          const chat = chatObj.message;
-          console.log("chat ", chat);
-          const user: User = {
-            username: chat.receiverUsername,
-            lastMessage: chat.message,
-            time: formatData(chat.createdAt),
-            profileImg: profileImgs[index],
-          };
-          return <ChatCard key={chat.receiverUsername} user={user} />;
-        }
-      )}
+            return <ChatCard key={chat.receiverUsername} user={user} />;
+          }
+        )}
     </>
   );
 };
