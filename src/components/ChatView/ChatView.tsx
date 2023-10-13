@@ -13,17 +13,15 @@ import {
 import ChatHeader from "./ChatHeader/ChatHeader";
 import MessageCard from "../Cards/MessageCard";
 import styles from "./chatView.module.css";
-import useSendMessage from "../../hooks/useSendMessage";
+// import useSendMessage from "../../hooks/useSendMessage";
 import { useState, useEffect } from "react";
 import { getMessages } from "../../services/messageServices";
 import { MessageObj } from "../../utils/types";
 
 const ChatView = () => {
-  console.log("rendering chat view");
   const { state } = useLocation();
   const selectedUser = state.selectedUser;
   const origin = state.origin;
-  // console.log(state);
 
   // const { data: messagesData } = useMessages(
   //   localStorage.getItem("token") || "",
@@ -31,18 +29,19 @@ const ChatView = () => {
   // );
 
   const [message, setMessage] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(false);
+  // const [shouldFetch, setShouldFetch] = useState(false);
   const [messages, setMessages] = useState<MessageObj[]>([]);
 
-  const { data: sendMessageData } = useSendMessage(
-    localStorage.getItem("token") || "",
-    selectedUser.username,
-    message,
-    shouldFetch
-  );
+  console.log("messages", messages);
 
-  console.log("typing...", message);
-  sendMessageData && console.log("sendMessageData", sendMessageData);
+  // const { data: sendMessageData } = useSendMessage(
+  //   localStorage.getItem("token") || "",
+  //   selectedUser.username,
+  //   message,
+  //   shouldFetch
+  // );
+
+  // sendMessageData && console.log("sendMessageData", sendMessageData);
 
   useEffect(() => {
     getMessages(
@@ -53,22 +52,28 @@ const ChatView = () => {
     });
   }, [selectedUser]);
   //
+  useEffect(() => {
+    // console.log("THIS USE EFECT IS RUNNINGGGG");s
+    customSocket.on("private message", (msg) => {
+      console.log("Mensaje recibido ", msg);
+      // const content: MessageObj = {
+      //   message: msg.content,
+      //   receiverUsername: msg.to,
+      //   senderUsername: msg.from,
+      //   createdAt: "",
+      //   id: "",
+      // };
+      console.log("MEnsajes anteriores: ", messages);
+      console.log("MESSAGE RECEIVED:-------", msg);
+      setMessages([...messages, msg]);
+      // const item = document.createElement("li");
+      // const messages = document.getElementById("messages");
+      // item.textContent = msg.content;
+      // messages?.appendChild(item);
+      // window.scrollTo(0, document.body.scrollHeight);
+    });
+  }, []);
 
-  // const socket = io(URL);
-  // useEffect(() => {
-  //   console.log("THIS USE EFECT IS RUNNINGGGG");
-  //   customSocket.onAny((event, ...args) => {
-  //     console.log(event, args);
-  //   });
-  //   customSocket.on("private message", (msg) => {
-  //     console.log("MESSAGE RECEIVED:-------", msg);
-  //     const item = document.createElement("li");
-  //     const messages = document.getElementById("messages");
-  //     item.textContent = msg.content;
-  //     messages?.appendChild(item);
-  //     // window.scrollTo(0, document.body.scrollHeight);
-  //   });
-  // }, []);
   return (
     <Grid
       as={"main"}
@@ -112,20 +117,20 @@ const ChatView = () => {
             action=""
             className="input-bar"
             onSubmit={(e) => {
-              const input = document.getElementById(
-                "input"
-              ) as HTMLInputElement;
+              // const input = document.getElementById(
+              //   "input"
+              // ) as HTMLInputElement;
 
               e.preventDefault();
-              if (input?.value) {
-                customSocket.emit("private message", {
-                  content: input.value,
-                  to: selectedUser.username,
-                });
-                input.value = "";
-              }
+              // if (input?.value) {
+              customSocket.emit("private message", {
+                content: message,
+                to: selectedUser.username,
+              });
+              // input.value = "";
+              // }
 
-              setShouldFetch(true);
+              // setShouldFetch(true);
             }}
           >
             <FormControl display={"flex"} flexDirection="row" gap={2}>

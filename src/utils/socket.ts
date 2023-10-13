@@ -6,17 +6,19 @@ const token = localStorage.getItem("token");
 const customSocket = io(URL, {
   auth: {
     token,
-    sessionID: token,
   },
 });
 customSocket.onAny((event, ...args) => {
   console.log(event, args);
 });
-customSocket.on("private message", (msg) => {
-  console.log("MESSAGE RECEIVED:-------", msg);
-  const item = document.createElement("li");
-  const messages = document.getElementById("messages");
-  item.textContent = msg.content;
-  messages?.appendChild(item);
-});
+// customSocket.on("private message", (msg) => {
+//   console.log("MESSAGE RECEIVED:-------", msg);
+//   const item = document.createElement("li");
+//   const messages = document.getElementById("messages");
+//   item.textContent = msg.content;
+//   messages?.appendChild(item);
+// });
+
+console.log("Custom socket initialized");
+
 export default customSocket;

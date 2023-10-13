@@ -20,7 +20,6 @@ const AddNewFriendModal = ({ setOpenModal }: Props) => {
   const { data: openInvitationsData, refetch } = useOpenInvitations(
     localStorage.getItem("token") || ""
   );
-  console.log("actualizando el dom...");
 
   function usersToDisplay() {
     const invitationReceivedUsernames =

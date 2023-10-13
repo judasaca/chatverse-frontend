@@ -8,7 +8,6 @@ const Home = () => {
   const navigate = useNavigate();
   const params = useParams();
   const currentRelativeURL = params["*"];
-  console.log(currentRelativeURL);
   return (
     <>
       <Grid
