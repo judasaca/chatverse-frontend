@@ -11,6 +11,7 @@ const UserContainer = ({ user }: UserContainerProps) => {
   const navigate = useNavigate();
   const params = useParams();
   const currentRelativeURL = params["*"];
+  console.log(params);
 
   return (
     <HStack

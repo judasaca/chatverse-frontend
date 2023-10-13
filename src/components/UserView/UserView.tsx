@@ -11,9 +11,14 @@ import {
 
 import { BiArrowBack } from "react-icons/bi";
 import { BiMessageRoundedDetail } from "react-icons/bi";
-import { AiOutlinePlusCircle, AiOutlineCloseCircle } from "react-icons/ai";
+import {
+  // AiOutlinePlusCircle,
+  AiOutlineCloseCircle,
+} from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import theme from "../../theme";
+import useDeleteFriend from "../../hooks/useDeleteFriend";
 
 // import { useLocation } from "react-router-dom";
 
@@ -27,6 +32,22 @@ const UserView = () => {
   console.log(state);
 
   const { logout } = useAuth();
+
+  // delete a friend
+  const { mutate: deleteFriend } = useDeleteFriend(
+    localStorage.getItem("token") || ""
+  );
+
+  const handleDeleteFriend = (username: string) => {
+    deleteFriend(username, {
+      onSuccess: (data) => {
+        console.log("Friend deleted successfully:", data);
+      },
+      onError: (error) => {
+        console.error("Error deleting friend:", error);
+      },
+    });
+  };
 
   return (
     <Grid
@@ -68,7 +89,7 @@ const UserView = () => {
           gap={3}
         >
           <Image borderRadius={"500px"} src="https://unsplash.it/600/600" />
-          <Text fontSize={"2xl"}>{selectedUsername}</Text>
+          <Text fontSize={"3xl"}>{selectedUsername}</Text>
           <Badge colorScheme="green">Online</Badge>
         </Box>
       </GridItem>
@@ -96,7 +117,7 @@ const UserView = () => {
         area="footer"
         display={"flex"}
         flexDirection={"column"}
-        gap={3}
+        gap={5}
         paddingX={20}
       >
         {currentUser?.username === selectedUser?.username ? (
@@ -104,22 +125,35 @@ const UserView = () => {
         ) : (
           <>
             <HStack
+              justifyContent={"center"}
               onClick={() =>
                 navigate("/chat", {
                   state: { selectedUser: selectedUser, origin: "chats" },
                 })
               }
             >
-              <BiMessageRoundedDetail title={"Chat with your friend"} />
-              <Text fontSize={"xl"}>Send message</Text>
+              <BiMessageRoundedDetail
+                size={"25px"}
+                title={"Chat with your friend"}
+              />
+              <Text fontSize={"2xl"}>Send message</Text>
             </HStack>
-            <HStack>
+            {/* <HStack>
               <AiOutlinePlusCircle title={"Add to a room"} />
-              <Text fontSize={"xl"}>Invite to a room</Text>
-            </HStack>
-            <HStack>
-              <AiOutlineCloseCircle title={"Delete friend"} />
-              <Text fontSize={"xl"}>Delete friend</Text>
+              <Text fontSize={"2xl"}>Invite to a room</Text>
+            </HStack> */}
+            <HStack
+              justifyContent={"center"}
+              onClick={() => handleDeleteFriend(selectedUser?.username)}
+            >
+              <AiOutlineCloseCircle
+                fill={theme.colors.red[500]}
+                size={"25px"}
+                title={"Delete friend"}
+              />
+              <Text fontSize={"2xl"} color={theme.colors.red[500]}>
+                Delete friend
+              </Text>
             </HStack>
           </>
         )}

@@ -7,25 +7,45 @@ import styles from "./friends.module.css";
 import AddNewFriendModal from "../../AddNewFriendModal/AddNewFriendModal";
 import { useState } from "react";
 import HandleInvitationsModal from "../../HandleInvitationsModal/HandleInvitationsModal";
+import useSearchMyFriends from "../../../hooks/useSearchMyFriends";
 
 const Friends = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openInvitationsModal, setOpenInvitationsModal] = useState(false);
   const { data, isLoading } = useFriends(localStorage.getItem("token") || "");
+  const [inputValue, setInputValue] = useState("");
 
   const profileImgs = [
     "https://unsplash.it/55/55",
     "https://unsplash.it/52/52",
   ];
 
+  const [toggleSearch, setToggleSearch] = useState(false);
+  const { data: friendSearchData } = useSearchMyFriends(
+    localStorage.getItem("token") || "",
+    inputValue,
+    toggleSearch
+  );
+
+  // function usersToDisplay() {
+  //   return friendSearchData?.users?.filter(
+  //     (element: string) => !openInvitations?.includes(element)
+  //   );
+  // }
+
+  // const users = usersToDisplay();
+
+  const handleSearch = (searchText: string) => {
+    setToggleSearch(true);
+    searchText !== "" && setInputValue(searchText);
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
     <>
       <HStack>
-        <SearchBar
-          onSearch={(searchText) => console.log("searchText ", searchText)}
-        />
+        <SearchBar onSearch={handleSearch} />
 
         <Button
           paddingY={{ base: 4, lg: 6 }}

@@ -90,6 +90,17 @@ class APIClient {
       .then((response) => response.data);
   };
 
+  getSearchMyFriends = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axiosInstance
+      .get(this.endpoint + username, config)
+      .then((response) => response.data);
+  };
+
   postSendFriendInvitation = (token: string, username: string) => {
     const config = {
       headers: {
@@ -153,6 +164,19 @@ class APIClient {
     };
     return axiosInstance
       .post(this.endpoint, { username }, config)
+      .then((response) => response.data);
+  };
+
+  deleteFriend = (token: string, username: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    console.log(token);
+    console.log("endpoint:", this.endpoint + username);
+    return axiosInstance
+      .delete(this.endpoint + username, config)
       .then((response) => response.data);
   };
 }

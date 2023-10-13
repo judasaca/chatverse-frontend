@@ -10,6 +10,7 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ user, origin }: ChatHeaderProps) => {
+  console.log(origin);
   const navigate = useNavigate();
   return (
     <Flex align={"center"} gap={4} paddingBottom={5}>

@@ -14,7 +14,7 @@ import ChatHeader from "./ChatHeader/ChatHeader";
 import MessageCard from "../Cards/MessageCard";
 import styles from "./chatView.module.css";
 // import useSendMessage from "../../hooks/useSendMessage";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getMessages } from "../../services/messageServices";
 import { MessageObj } from "../../utils/types";
 
@@ -22,6 +22,7 @@ const ChatView = () => {
   const { state } = useLocation();
   const selectedUser = state.selectedUser;
   const origin = state.origin;
+  console.log(origin);
 
   // const { data: messagesData } = useMessages(
   //   localStorage.getItem("token") || "",
@@ -33,6 +34,14 @@ const ChatView = () => {
   const [messages, setMessages] = useState<MessageObj[]>([]);
 
   console.log("messages", messages);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // const { data: sendMessageData } = useSendMessage(
   //   localStorage.getItem("token") || "",
@@ -54,7 +63,8 @@ const ChatView = () => {
   //
   useEffect(() => {
     // console.log("THIS USE EFECT IS RUNNINGGGG");s
-    customSocket.on("private message", (msg) => {
+
+    const handleNewMessage = (msg: MessageObj) => {
       console.log("Mensaje recibido ", msg);
       // const content: MessageObj = {
       //   message: msg.content,
@@ -65,14 +75,20 @@ const ChatView = () => {
       // };
       console.log("MEnsajes anteriores: ", messages);
       console.log("MESSAGE RECEIVED:-------", msg);
-      setMessages([...messages, msg]);
+      setMessages((prevMessages) => [msg, ...prevMessages]);
       // const item = document.createElement("li");
       // const messages = document.getElementById("messages");
       // item.textContent = msg.content;
       // messages?.appendChild(item);
       // window.scrollTo(0, document.body.scrollHeight);
-    });
-  }, []);
+    };
+
+    customSocket.on("private message", handleNewMessage);
+
+    return () => {
+      customSocket.off("private message", handleNewMessage);
+    };
+  }, [messages]);
 
   return (
     <Grid
@@ -98,6 +114,7 @@ const ChatView = () => {
           flexDirection="column"
           paddingRight={2}
           height={"85%"}
+          ref={messagesEndRef}
         >
           <Box className={styles.messages}>
             {messages &&
@@ -130,7 +147,7 @@ const ChatView = () => {
               // input.value = "";
               // }
 
-              // setShouldFetch(true);
+              setMessage("");
             }}
           >
             <FormControl display={"flex"} flexDirection="row" gap={2}>
@@ -139,6 +156,7 @@ const ChatView = () => {
                 autoComplete="off"
                 type="text"
                 placeholder="Type a message"
+                value={message}
                 onChange={(event) => setMessage(event.target.value)}
               />
               <Button type="submit">Send</Button>
