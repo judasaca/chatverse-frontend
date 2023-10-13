@@ -1,5 +1,8 @@
-import CardComponent from "../../Card/Card";
+import { Spinner } from "@chakra-ui/react";
+import useChats from "../../../hooks/useChats";
+import ChatCard from "../../Cards/ChatCard";
 import SearchBar from "../../SearchBar/SearchBar";
+import formatData from "../../../utils/formatData";
 
 export interface User {
   username: string;
@@ -9,27 +12,48 @@ export interface User {
 }
 
 const Chats = () => {
-  const user: User = {
-    username: "angLaGatita",
-    lastMessage: "How r u? 💕",
-    time: "18:20",
-    profileImg:
-      "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-  };
-  const user2: User = {
-    username: "judasaca",
-    lastMessage: "hey",
-    time: "13:00",
-    profileImg:
-      "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-  };
+  const { data, isLoading, isError } = useChats(
+    localStorage.getItem("token") || ""
+  );
+
+  const profileImgs = [
+    "https://unsplash.it/51/51",
+    "https://unsplash.it/53/53",
+  ];
+
+  // console.log("dataaa ", data);
+
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <SearchBar
         onSearch={(searchText) => console.log("searchText ", searchText)}
       />
-      <CardComponent user={user} />
-      <CardComponent user={user2} />
+      {data?.items &&
+        [...data.items].reverse().map(
+          (
+            chatObj: {
+              friend: string;
+              message: {
+                receiverUsername: string;
+                message: string;
+                createdAt: string;
+              };
+            },
+            index: number
+          ) => {
+            const chat = chatObj.message;
+            // console.log("chat ", chat);
+            const user: User = {
+              username: chatObj.friend,
+              lastMessage: chat.message,
+              time: formatData(chat.createdAt),
+              profileImg: profileImgs[index],
+            };
+            return <ChatCard key={chatObj.friend} user={user} />;
+          }
+        )}
     </>
   );
 };
