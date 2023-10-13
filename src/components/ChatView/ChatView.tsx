@@ -11,11 +11,12 @@ import {
   Input,
 } from "@chakra-ui/react";
 import ChatHeader from "./ChatHeader/ChatHeader";
-import useMessages from "../../hooks/useMessages";
-import MessageCard, { MessageObj } from "../Cards/MessageCard";
+import MessageCard from "../Cards/MessageCard";
 import styles from "./chatView.module.css";
 import useSendMessage from "../../hooks/useSendMessage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getMessages } from "../../services/messageServices";
+import { MessageObj } from "../../utils/types";
 
 const ChatView = () => {
   console.log("rendering chat view");
@@ -24,13 +25,14 @@ const ChatView = () => {
   const origin = state.origin;
   // console.log(state);
 
-  const { data: messagesData } = useMessages(
-    localStorage.getItem("token") || "",
-    selectedUser.username
-  );
+  // const { data: messagesData } = useMessages(
+  //   localStorage.getItem("token") || "",
+  //   selectedUser.username
+  // );
 
   const [message, setMessage] = useState("");
   const [shouldFetch, setShouldFetch] = useState(false);
+  const [messages, setMessages] = useState<MessageObj[]>([]);
 
   const { data: sendMessageData } = useSendMessage(
     localStorage.getItem("token") || "",
@@ -42,6 +44,14 @@ const ChatView = () => {
   console.log("typing...", message);
   sendMessageData && console.log("sendMessageData", sendMessageData);
 
+  useEffect(() => {
+    getMessages(
+      localStorage.getItem("token") || "",
+      selectedUser.username
+    ).then((m) => {
+      setMessages(m);
+    });
+  }, [selectedUser]);
   //
 
   // const socket = io(URL);
@@ -62,13 +72,13 @@ const ChatView = () => {
   return (
     <Grid
       as={"main"}
-      height={"100%"}
+      // height={"100vh"}
       templateAreas={{
         base: `"main" 
               "footer"`,
       }}
       templateRows={{
-        base: "1fr 50px",
+        base: "90vh 50px",
       }}
       templateColumns={{
         base: "1fr",
@@ -85,8 +95,8 @@ const ChatView = () => {
           height={"85%"}
         >
           <Box className={styles.messages}>
-            {messagesData?.messages &&
-              [...messagesData.messages]
+            {messages &&
+              [...messages]
                 .reverse()
                 .map((messageObj: MessageObj, index: number) => {
                   // console.log(messageObj);

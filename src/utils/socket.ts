@@ -9,7 +9,6 @@ const customSocket = io(URL, {
     sessionID: token,
   },
 });
-console.log("THIS USE EFECT IS RUNNINGGGG");
 customSocket.onAny((event, ...args) => {
   console.log(event, args);
 });

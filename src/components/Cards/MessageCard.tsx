@@ -3,17 +3,10 @@ import theme from "../../theme";
 import styles from "./messageCard.module.css";
 import { useAuth } from "../../hooks/useAuth";
 import formatData from "../../utils/formatData";
+import { MessageObj } from "../../utils/types";
 
 interface MessageCardProps {
   data: MessageObj;
-}
-
-export interface MessageObj {
-  createdAt: "";
-  id: "";
-  message: "";
-  receiverUsername: "";
-  senderUsername: "";
 }
 
 const MessageCard = ({ data }: MessageCardProps) => {

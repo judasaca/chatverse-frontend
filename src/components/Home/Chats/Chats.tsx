@@ -46,12 +46,12 @@ const Chats = () => {
             const chat = chatObj.message;
             // console.log("chat ", chat);
             const user: User = {
-              username: chat.receiverUsername,
+              username: chatObj.friend,
               lastMessage: chat.message,
               time: formatData(chat.createdAt),
               profileImg: profileImgs[index],
             };
-            return <ChatCard key={chat.receiverUsername} user={user} />;
+            return <ChatCard key={chatObj.friend} user={user} />;
           }
         )}
     </>
