@@ -12,9 +12,7 @@ export interface User {
 }
 
 const Chats = () => {
-  const { data, isLoading, isError } = useChats(
-    localStorage.getItem("token") || ""
-  );
+  const { data, isLoading } = useChats(localStorage.getItem("token") || "");
 
   const profileImgs = [
     "https://unsplash.it/51/51",

@@ -21,7 +21,7 @@ const Friends = () => {
   ];
 
   const [toggleSearch, setToggleSearch] = useState(false);
-  const { data: friendSearchData } = useSearchMyFriends(
+  useSearchMyFriends(
     localStorage.getItem("token") || "",
     inputValue,
     toggleSearch

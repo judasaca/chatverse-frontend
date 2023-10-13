@@ -17,7 +17,7 @@ const AddNewFriendModal = ({ setOpenModal }: Props) => {
     inputValue
   );
 
-  const { data: openInvitationsData, refetch } = useOpenInvitations(
+  const { data: openInvitationsData } = useOpenInvitations(
     localStorage.getItem("token") || ""
   );
 

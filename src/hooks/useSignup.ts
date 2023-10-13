@@ -1,9 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import APIClient from "../services/api-client";
 import { IFormData } from "../components/Layouts/SignInUpLayout";
-import { User } from "../components/AuthProvider/AuthProvider";
 
-const apiClient = new APIClient<User>("/user");
+const apiClient = new APIClient("/user");
 
 const useSignup = () =>
   useMutation<IFormData, Error, IFormData>({
