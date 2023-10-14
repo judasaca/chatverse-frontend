@@ -20,8 +20,6 @@ import { useAuth } from "../../hooks/useAuth";
 import theme from "../../theme";
 import useDeleteFriend from "../../hooks/useDeleteFriend";
 
-// import { useLocation } from "react-router-dom";
-
 const UserView = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -126,6 +124,7 @@ const UserView = () => {
           <>
             <HStack
               justifyContent={"center"}
+              cursor={"pointer"}
               onClick={() =>
                 navigate("/chat", {
                   state: { selectedUser: selectedUser, origin: "chats" },
@@ -144,6 +143,7 @@ const UserView = () => {
             </HStack> */}
             <HStack
               justifyContent={"center"}
+              cursor={"pointer"}
               onClick={() => handleDeleteFriend(selectedUser?.username)}
             >
               <AiOutlineCloseCircle

@@ -129,7 +129,10 @@ const HandleInvitationsModal = ({ setOpenInvitationsModal }: Props) => {
                           setShouldFetchAccept(true);
                         }}
                       >
-                        <AiOutlineCheckCircle className={styles.icon} />
+                        <AiOutlineCheckCircle
+                          cursor={"pointer"}
+                          className={styles.icon}
+                        />
                       </Box>
                       <Box
                         onClick={() => {
@@ -138,7 +141,10 @@ const HandleInvitationsModal = ({ setOpenInvitationsModal }: Props) => {
                           setShouldFetchReject(true);
                         }}
                       >
-                        <AiOutlineCloseCircle className={styles.icon} />
+                        <AiOutlineCloseCircle
+                          cursor={"pointer"}
+                          className={styles.icon}
+                        />
                       </Box>
                     </HStack>
                   </Flex>
@@ -170,7 +176,10 @@ const HandleInvitationsModal = ({ setOpenInvitationsModal }: Props) => {
                       setShouldFetchCancel(true);
                     }}
                   >
-                    <AiOutlineCloseCircle className={styles.icon} />
+                    <AiOutlineCloseCircle
+                      cursor={"pointer"}
+                      className={styles.icon}
+                    />
                   </Box>
                 </Flex>
               );

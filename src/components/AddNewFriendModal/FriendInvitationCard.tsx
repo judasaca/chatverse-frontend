@@ -27,7 +27,7 @@ const FriendInvitationCard = ({ username }: Props) => {
       gap={5}
     >
       {username}
-      <Box onClick={() => setShouldFetch(true)}>
+      <Box cursor={"pointer"} onClick={() => setShouldFetch(true)}>
         <BsPersonPlus className={styles.addFriendIcon} />
       </Box>
     </Flex>

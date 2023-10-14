@@ -15,6 +15,7 @@ const UserContainer = ({ user }: UserContainerProps) => {
 
   return (
     <HStack
+      cursor={"pointer"}
       gap={5}
       width={"100%"}
       onClick={() =>
